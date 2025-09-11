@@ -23,8 +23,8 @@ const upload = multer({
         }
     },
     limits: {
-        fileSize: 1024 * 1024 * 100,
-        files: 10
+        fileSize: 5 * 1024 * 1024,
+        files: 5
     }
 });
 
@@ -38,7 +38,7 @@ export const createUploadMiddleware = (fieldName, check = null) => {
                     
                     switch(err.code) {
                         case "LIMIT_FILE_COUNT":
-                            errorMessage = "Максимальное количество файлов: 10";
+                            errorMessage = "Максимальное количество файлов: 5";
                             break;
                         case "LIMIT_FILE_SIZE":
                             errorMessage = "Максимальный размер файла: 100MB";
