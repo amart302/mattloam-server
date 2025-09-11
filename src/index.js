@@ -15,7 +15,10 @@ const app = express();
 const __dirname = getDirname(import.meta.url);
 
 app.use(cors({
-    origin: process.env.CORS_ORIGIN,
+    origin: [
+        "https://mattloam.ru",
+        "https://www.mattloam.ru"
+    ],
     credentials: true
 }));
 app.use(express.json());
