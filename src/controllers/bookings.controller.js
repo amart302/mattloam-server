@@ -113,7 +113,7 @@ export async function getBookings(req, res){
             ]
         });
 
-        if(!bookings.length) return res.status(404).json({ message: `На данный момент ${ status === "active" ? "активных броней" : "броней ожидающих подтверждения" } нет` });
+        if(!bookings.length) return res.status(404).json({ message: `На данный момент ${ status === "active" ? "активных броней" : "броней ожидающих подтверждения" } нет`, type: "warning" });
         
         res.status(200).json({ bookings });
     } catch (error) {

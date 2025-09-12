@@ -3,8 +3,7 @@ import multer from "multer";
 
 const storage = multer.diskStorage({
     destination: function (req, file, callback) {
-        let uploadDir = "uploads";
-        callback(null, uploadDir);
+        callback(null, "uploads");
     },
     filename: function (req, file, callback) {
         let filename = Date.now() + path.extname(file.originalname);
@@ -15,16 +14,19 @@ const storage = multer.diskStorage({
 const upload = multer({
     storage: storage,
     fileFilter: function (req, file, callback) {
-        const allowedTypes = [ "image/jpeg", "image/png", "image/gif" ];
+        const allowedTypes = [ "image/jpeg", "image/png" ];
         if(allowedTypes.includes(file.mimetype)){
             callback(null, true);
         }else{
-            callback(new Error("Неверный тип файла"), false);
+            callback(new Error("Допускаются только файлы формата JPG / JPEG / PNG"), false);
         }
     },
     limits: {
-        fileSize: 5 * 1024 * 1024,
-        files: 5
+        fileSize: 10 * 1024 * 1024,
+        files: 5,
+        fieldSize: 5 * 1024 * 1024,
+        fields: 10,
+        headerPairs: 2000
     }
 });
 
@@ -41,7 +43,7 @@ export const createUploadMiddleware = (fieldName, check = null) => {
                             errorMessage = "Максимальное количество файлов: 5";
                             break;
                         case "LIMIT_FILE_SIZE":
-                            errorMessage = "Максимальный размер файла: 100MB";
+                            errorMessage = "Максимальный размер файла: 10MB";
                             break;
                         case err.message === "Неверный тип файла":
                             errorMessage = "Допускаются только файлы формата JPG / JPEG / PNG";

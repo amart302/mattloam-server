@@ -49,7 +49,7 @@ export async function getRooms(req, res){
       attributes: ["id", "title", "mainImage", "description", "priceFrom", "guests", "beds", "services"]
     });
     
-    if(!rooms.length) return res.status(404).json({ message: "На данный момент номеров нет" });
+    if(!rooms.length) return res.status(404).json({ message: "На данный момент номеров нет", type: "warning" });
 
     res.status(200).json({ rooms });
   } catch (error) {
@@ -86,7 +86,7 @@ export async function findRooms(req, res){
       }
     });
 
-    if(allRooms.length === 0) return res.status(404).json({ message: "Не удалось найти номера соответствующий требованиям" });
+    if(allRooms.length === 0) return res.status(404).json({ message: "Не удалось найти номера соответствующий требованиям", type: "warning" });
 
     const bookedRooms = await Booking.findAll({
       where: {
@@ -101,7 +101,7 @@ export async function findRooms(req, res){
     const bookedRoomIds = bookedRooms.map(room => room.roomId);
     const availableRooms = allRooms.filter(room => !bookedRoomIds.includes(room.id));
 
-    if(availableRooms.length === 0) return res.status(404).json({ message: "Не удалось найти номера соответствующий требованиям" });
+    if(availableRooms.length === 0) return res.status(404).json({ message: "Не удалось найти номера соответствующий требованиям", type: "warning" });
     
     res.status(200).json({ rooms: availableRooms });
   } catch (error) {

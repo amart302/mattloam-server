@@ -21,7 +21,7 @@ const sendVerificationEmail = async (email, code) => {
     await transporter.sendMail(mailOptions);
   } catch (error) {
     console.log(error);
-    throw new Error(`Ошибка при отправке письма: ${ error.message }`);
+    throw new Error("Ошибка при отправке письма");
   }
 };
 
@@ -156,7 +156,7 @@ export async function changePassword(req, res){
         res.status(200).json({ message: "Пароль успешно изменен" });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Не удалось сменить пароль" });
+        res.status(500).json({ message: "Не удалось сменить пароль" });
     }  
 };
 
@@ -175,6 +175,6 @@ export async function check(req, res){
         res.status(200).json({ user });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ error: "Не удалось получить данные пользователя" });
+        res.status(500).json({ message: "Не удалось получить данные пользователя" });
     }
 };

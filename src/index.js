@@ -17,11 +17,16 @@ const __dirname = getDirname(import.meta.url);
 app.use(cors({
     origin: [
         "https://mattloam.ru",
-        "https://www.mattloam.ru"
+        "https://www.mattloam.ru",
+        "http://localhost:3000"
     ],
     credentials: true
 }));
-app.use(express.json({ limit: "30mb" }));
+app.use(express.json({ limit: "110mb" }));
+app.use(express.urlencoded({ 
+    limit: "110mb", 
+    extended: true
+}));
 app.use("/media", express.static(path.join(__dirname, "../uploads")));
 app.use("/auth", authRoutes);
 app.use("/rooms", roomsRoutes);

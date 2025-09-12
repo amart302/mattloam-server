@@ -8,8 +8,6 @@
     "start": "pm2 start src/index.js --name 'mattloam-server'",
     "restart": "pm2 restart mattloam-server",
     "stop": "pm2 delete mattloam-server",
-    "logs": "pm2 logs mattloam-server",
-    "monit": "pm2 monit",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -28,7 +26,6 @@
     "mysql2": "^3.14.0",
     "node-cron": "^4.2.1",
     "nodemailer": "^7.0.5",
-    "nodemon": "^3.1.9",
     "path": "^0.12.7",
     "sequelize": "^6.37.7",
     "url": "^0.11.4"

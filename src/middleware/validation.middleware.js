@@ -77,7 +77,7 @@ export const createRoomValidation = [
     body("title")
         .trim()
         .notEmpty().withMessage("Название обязательно")
-        .isLength({ max: 255 }).withMessage("Название не должно превышать 255 символов"),
+        .isLength({ max: 100 }).withMessage("Название не должно превышать 100 символов"),
     body("description")
         .trim()
         .notEmpty().withMessage("Описание обязательно")
@@ -118,7 +118,7 @@ export const editRoomValidation = [
     body("title")
         .trim()
         .notEmpty().withMessage("Название обязательно")
-        .isLength({ max: 255 }).withMessage("Название не должно превышать 255 символов"),
+        .isLength({ max: 100 }).withMessage("Название не должно превышать 100 символов"),
     body("description")
         .trim()
         .notEmpty().withMessage("Описание обязательно")
