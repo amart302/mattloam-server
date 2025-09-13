@@ -17,6 +17,6 @@ export async function deleteFilesByName(files){
             }));
         }
     } catch (error) {
-        console.log(error.message);
+        console.error(error.message);
     }
 }

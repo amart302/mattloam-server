@@ -12,6 +12,6 @@ export async function startConnection(){
         await sequelize.authenticate();
         console.log("Успешное подключение к базе данных");
     } catch (error) {
-        console.log("Не удалось подключиться к базе данных");
+        console.error("Не удалось подключиться к базе данных");
     }
 };

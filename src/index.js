@@ -22,9 +22,9 @@ app.use(cors({
     ],
     credentials: true
 }));
-app.use(express.json({ limit: "110mb" }));
-app.use(express.urlencoded({ 
-    limit: "110mb", 
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({
+    limit: "60mb",
     extended: true
 }));
 app.use("/media", express.static(path.join(__dirname, "../uploads")));
@@ -51,7 +51,7 @@ const startServer = async () => {
 
         startBookingCron();
     } catch (error) {
-        console.log(error);
+        console.error(error);
     }
 };
 

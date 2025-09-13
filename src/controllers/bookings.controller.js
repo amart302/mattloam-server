@@ -27,7 +27,7 @@ export async function createBookingAdmin(req, res){
         const hasOverlap = await Booking.findOne({
             where: {
                 roomId,
-                status: [ "active", "pending" ],
+                status: [ "active" ],
                 [ Op.and ]: [
                     { dateOfEntry: { [ Op.lte ]: new Date(departureDate) } },
                     { departureDate: { [ Op.gte ]: new Date(dateOfEntry) } }
@@ -36,7 +36,7 @@ export async function createBookingAdmin(req, res){
         });
 
         if(hasOverlap){
-            return res.status(409).json({ message: "Выбранные даты уже заняты" });
+            return res.status(409).json({ message: "Выбранные даты уже заняты", type: "warning" });
         }
 
         await Booking.create(data);
@@ -51,7 +51,7 @@ export async function createBooking(req, res){
     try {
         const { id, role } = req.user;
         if(role === "admin"){
-            return res.status(403).json({ message: "Админ не может бронировать номера" });
+            return res.status(403).json({ message: "Админ не может бронировать номера", type: "warning" });
         }
         const {
             roomId,
@@ -69,9 +69,10 @@ export async function createBooking(req, res){
             adults,
             children
         };
-        
-        const hasOverlap = await Booking.findOne({
+
+        const userHasOverlap = await Booking.findOne({
             where: {
+                userId: id,
                 roomId,
                 status: [ "active", "pending" ],
                 [ Op.and ]: [
@@ -81,8 +82,23 @@ export async function createBooking(req, res){
             }
         });
 
+        if(userHasOverlap){
+            return res.status(409).json({ message: "У вас уже есть бронь на эти даты", type: "warning" });
+        }
+        
+        const hasOverlap = await Booking.findOne({
+            where: {
+                roomId,
+                status: [ "active" ],
+                [ Op.and ]: [
+                    { dateOfEntry: { [ Op.lte ]: new Date(departureDate) } },
+                    { departureDate: { [ Op.gte ]: new Date(dateOfEntry) } }
+                ]
+            }
+        });
+
         if(hasOverlap){
-            return res.status(409).json({ message: "Выбранные даты уже заняты" });
+            return res.status(409).json({ message: "Выбранные даты уже заняты", type: "warning" });
         }
 
         await Booking.create(data);
@@ -108,7 +124,7 @@ export async function getBookings(req, res){
                 },
                  {
                     model: User,
-                    attributes: [ "phoneNumber" ]
+                    attributes: [ "email", "phoneNumber" ]
                 }
             ]
         });
@@ -130,7 +146,7 @@ export async function confirmBooking(req, res){
         const booking = await Booking.findByPk(id);
 
         if(!booking){
-            return res.status(404).json({ message: "Бронь не найдена" });
+            return res.status(404).json({ message: "Бронь не найдена", type: "warning" });
         }
 
         await booking.update({ status: "active" });
@@ -149,7 +165,7 @@ export async function deleteBooking(req, res){
         const booking = await Booking.findByPk(id);
         
         if(!booking){
-            return res.status(404).json({ message: "Бронь не найден" });
+            return res.status(404).json({ message: "Бронь не найдена", type: "warning" });
         }
         
         await booking.destroy();

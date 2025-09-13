@@ -65,7 +65,7 @@ export async function getRoom(req, res){
         const bookings = await Booking.findAll({ where: { roomId: id } });
 
         if(!room){
-          return res.status(404).json({ message: "Номер не найден" });
+          return res.status(404).json({ message: "Номер не найден", type: "warning" });
         }
 
         res.status(200).json({ room, bookings });
@@ -129,7 +129,7 @@ export async function editRoom(req, res){
     const room = await Room.findByPk(id);
 
     if(!room){
-      return res.status(404).json({ message: "Номер не найден" });
+      return res.status(404).json({ message: "Номер не найден", type: "warning" });
     }
 
     const pricing = JSON.parse(pricingJson);
@@ -176,7 +176,7 @@ export async function editRoom(req, res){
     res.status(200).json({ message: "Номер успешно отредактирован" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Не удалось оредактировать номер" });
+    res.status(500).json({ message: "Не удалось отредактировать номер" });
   }
 }
 
@@ -186,7 +186,7 @@ export async function deleteRoom(req, res){
 
     const room = await Room.findByPk(id);
     if(!room){
-      return res.status(404).json({ message: "Номер не найден" });
+      return res.status(404).json({ message: "Номер не найден", type: "warning" });
     }
     deleteFilesByName(room.files);
 

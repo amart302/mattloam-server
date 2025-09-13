@@ -20,7 +20,7 @@ const sendVerificationEmail = async (email, code) => {
 
     await transporter.sendMail(mailOptions);
   } catch (error) {
-    console.log(error);
+    console.error(error);
     throw new Error("Ошибка при отправке письма");
   }
 };
@@ -42,7 +42,7 @@ export async function signup(req, res) {
         });
 
         if(user){
-            return res.status(409).json({ message: "Пользователь с такой почтой уже существует" });
+            return res.status(409).json({ message: "Пользователь с такой почтой уже существует", type: "warning" });
         }
         
         await User.create({
@@ -55,7 +55,7 @@ export async function signup(req, res) {
 
         res.status(200).json({ message: "Успешная регистрация" });
     } catch (error) {
-        console.log(error);
+        console.error(error);
         res.status(500).json({ message: "Ошибка регистрации" });
     }
 };
@@ -67,22 +67,22 @@ export async function signin(req, res) {
         const user = await User.findOne({ where: { email } });
         
         if(!user){
-            return res.status(401).json({ message: "Не правильный логин или пароль! Повторите вход" });
+            return res.status(401).json({ message: "Не правильный логин или пароль! Повторите вход", type: "warning" });
         }
 
         const validPassword = bcrypt.compareSync(password, user.password);
         if(!validPassword){
-            return res.status(401).json({ message: "Не правильный номер телефона или пароль! Повторите вход" });
+            return res.status(401).json({ message: "Не правильный номер телефона или пароль! Повторите вход", type: "warning" });
         }
 
-        if (!user.isVerified) {
+        if(!user.isVerified){
             return res.status(200).json({ requiresEmailVerification: true });
         }
 
         const token = generateAccessToken(user.id, user.role);
         res.status(200).json({ message: "Успешный вход", token });
     } catch (error) {
-        console.log(error);
+        console.error(error);
         res.status(500).json({ message: "Ошибка авторизации" });
     }
 };
@@ -95,7 +95,7 @@ export async function sendСode(req, res){
         const user = await User.findOne({ where: { email } });
 
         if(!user){
-            return res.status(404).json({ message: "Поьзователь не найден" });
+            return res.status(404).json({ message: "Пользователь не найден", type: "warning" });
         }
 
         await user.update({ 
@@ -105,7 +105,7 @@ export async function sendСode(req, res){
         
         res.status(200).json({ message: "Код отправлен" });
     } catch (error) {
-        console.log(error);
+        console.error(error);
         res.status(500).json({ message: "Не удалось отправить код" });
     }
 };
@@ -116,7 +116,7 @@ export async function checkingСode(req, res){
         const user = await User.findOne({ where: { email } });
         
         if(!user){
-            return res.status(404).json({ message: "Пользователь не найден" });
+            return res.status(404).json({ message: "Пользователь не найден", type: "warning" });
         }
 
         if(user.verificationCode === Number(code)){
@@ -128,10 +128,10 @@ export async function checkingСode(req, res){
             const token = generateAccessToken(user.id, user.role);
             res.status(200).json({ message: "Успешная авторизация", token });
         }else{
-            res.status(400).json({ message: "Неверный код подтверждения" });
+            res.status(400).json({ message: "Неверный код подтверждения", type: "warning" });
         }
     } catch (error) {
-        console.log(error);
+        console.error(error);
         res.status(500).json({ message: "Ошибка при проверки кода" });
     }
 };
@@ -149,8 +149,8 @@ export async function changePassword(req, res){
             { where: { email } }
         );
 
-        if (user === 0) {
-            return res.status(404).json({ error: "Пользователь не найден" });
+        if(user === 0){
+            return res.status(404).json({ error: "Пользователь не найден", type: "warning" });
         }
 
         res.status(200).json({ message: "Пароль успешно изменен" });
@@ -168,8 +168,8 @@ export async function check(req, res){
             attributes: [ "id", "email", "role" ]
         });
         
-        if (!user) {
-            return res.status(404).json({ message: "Пользователь не найден" });
+        if(!user){
+            return res.status(404).json({ message: "Пользователь не найден", type: "warning" });
         }
 
         res.status(200).json({ user });

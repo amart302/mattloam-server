@@ -23,21 +23,18 @@ const upload = multer({
     },
     limits: {
         fileSize: 10 * 1024 * 1024,
-        files: 5,
-        fieldSize: 5 * 1024 * 1024,
-        fields: 10,
-        headerPairs: 2000
+        files: 5
     }
 });
 
 export const createUploadMiddleware = (fieldName, check = null) => {
     return (req, res, next) => {
         upload.array(fieldName)(req, res, (err) => {
-            try {                
+            try {
                 if(err){
                     let errorMessage;
                     let statusCode = 400;
-                    
+
                     switch(err.code) {
                         case "LIMIT_FILE_COUNT":
                             errorMessage = "Максимальное количество файлов: 5";
@@ -53,7 +50,7 @@ export const createUploadMiddleware = (fieldName, check = null) => {
                             errorMessage = "Произошла ошибка при загрузке файлов";
                             statusCode = 500;
                     }
-                    
+
                     return res.status(statusCode).json({ message: errorMessage });
                 }
 

@@ -12,7 +12,7 @@ export async function getUserProfile(req, res) {
         });
         
         if (!user) {
-            return res.status(404).json({ message: "Пользователь не найден" });
+            return res.status(404).json({ message: "Пользователь не найден", type: "warning" });
         }
 
         res.status(200).json({ user });
