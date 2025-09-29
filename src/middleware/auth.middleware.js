@@ -8,7 +8,7 @@ export default function (req, res, next){
         const authHeader = req.headers.authorization;
 
         if(!authHeader || !authHeader.startsWith("Bearer ")){
-            return res.status(403).json({ message: "Пожалуйста авторозуйтесь" });
+            return res.status(403).json({ message: "Пожалуйста авторизуйтесь" });
         }
 
         const token = authHeader.split(" ")[1];
