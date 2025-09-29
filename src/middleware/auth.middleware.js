@@ -18,6 +18,6 @@ export default function (req, res, next){
 
         next();
     } catch (error) {
-        return res.status(500).json({ message: "Пожалуйста авторозуйтесь" });
+        return res.status(500).json({ message: "Пожалуйста авторизуйтесь" });
     }
 };
