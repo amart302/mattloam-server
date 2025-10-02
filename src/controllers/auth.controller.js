@@ -72,7 +72,7 @@ export async function signin(req, res) {
 
         const validPassword = bcrypt.compareSync(password, user.password);
         if(!validPassword){
-            return res.status(401).json({ message: "Не правильный номер телефона или пароль! Повторите вход", type: "warning" });
+            return res.status(401).json({ message: "Не правильный логин или пароль! Повторите вход", type: "warning" });
         }
 
         if(!user.isVerified){

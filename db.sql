@@ -4,9 +4,9 @@ drop table bookings;
 
 CREATE TABLE users (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(255) UNIQUE NOT NULL,
-    firstname VARCHAR(255) NOT NULL,
-    lastname VARCHAR(255) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    firstname VARCHAR(100) NOT NULL,
+    lastname VARCHAR(100) NOT NULL,
     phoneNumber VARCHAR(12) NOT NULL,
     role ENUM("admin", "user") DEFAULT "user",
     password VARCHAR(255) NOT NULL,
@@ -35,7 +35,7 @@ CREATE TABLE bookings (
 
 CREATE TABLE rooms (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    title VARCHAR(255) NOT NULL,
+    title VARCHAR(100) NOT NULL,
     mainImage VARCHAR(255) NOT NULL,
     files JSON NOT NULL,
     priceFrom INT NOT NULL,
