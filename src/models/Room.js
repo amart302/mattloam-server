@@ -3,7 +3,7 @@ import { sequelize } from "../db.js";
 
 export const Room = sequelize.define("Room", {
         id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
-        title: { type: DataTypes.STRING(255), allowNull: false },
+        title: { type: DataTypes.STRING(100), allowNull: false },
         mainImage: { type: DataTypes.STRING(255), allowNull: false },
         files: { type: DataTypes.JSON, allowNull: false },
         description: { type: DataTypes.TEXT, allowNull: false },
