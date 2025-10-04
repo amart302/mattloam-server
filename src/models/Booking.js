@@ -1,7 +1,5 @@
 import { DataTypes } from "sequelize";
 import { sequelize } from "../db.js";
-import { User } from "./User.js";
-import { Room } from "./Room.js";
 
 export const Booking = sequelize.define("Booking", {
         id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
@@ -18,8 +16,3 @@ export const Booking = sequelize.define("Booking", {
         timestamps: false
     }
 );
-
-Booking.associate = () => {
-    Booking.belongsTo(User, { foreignKey: "userId" });
-    Booking.belongsTo(Room, { foreignKey: "roomId" });
-};
