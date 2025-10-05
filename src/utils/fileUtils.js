@@ -9,14 +9,10 @@ export async function deleteFilesByName(files){
         if(files){
             await Promise.all(files.map(async item => {
                 const filePath = "../../uploads";
-                try {
-                    await fs.unlink(join(__dirname, filePath, item));
-                } catch (error) {
-                    console.error(`Не удалось удалить файл`, error.message);
-                }
+                await fs.unlink(join(__dirname, filePath, item));
             }));
         }
     } catch (error) {
-        console.error(error.message);
+        throw error;
     }
 }
