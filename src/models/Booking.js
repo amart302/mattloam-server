@@ -13,6 +13,10 @@ export const Booking = sequelize.define("Booking", {
         status: { type: DataTypes.ENUM("active", "pending"), defaultValue: "pending" }
     }, {
         tableName: "bookings",
-        timestamps: false
+        timestamps: false,
+        indexes: [
+            { fields: ["userId"] },
+            { fields: ["roomId"] }
+        ]
     }
 );
