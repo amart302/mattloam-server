@@ -5,10 +5,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "pm2 start src/index.js --name 'mattloam-server'",
-    "restart": "pm2 restart mattloam-server",
-    "stop": "pm2 delete mattloam-server",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/index.js"
   },
   "keywords": [],
   "author": "",
